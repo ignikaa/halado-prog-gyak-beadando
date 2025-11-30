@@ -40,3 +40,42 @@ def checkParkingSpace(imgPro, imgOriginal):
         cvzone.putTextRect(imgOriginal, "BEHAJTHAT", (50, 150), scale=3, thickness=3, offset=10, colorR=(0, 255, 0))
     else:
         cvzone.putTextRect(imgOriginal, "TELE VAN", (50, 150), scale=3, thickness=3, offset=10, colorR=(0, 0, 255))
+
+while True:
+    # Videó újraindítása ha véget ér
+    if cap.get(cv2.CAP_PROP_POS_FRAMES) == cap.get(cv2.CAP_PROP_FRAME_COUNT):
+        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        
+    success, img = cap.read()
+    if not success:
+        break
+
+    # --- Képfeldolgozási lánc ---
+    
+    # 1. Szürkeárnyalatos konverzió
+    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    # 2. Elmosás (zajszűrés)
+    imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)
+    
+    # 3. Adaptív küszöbölés (Élek kiemelése, árnyékok kezelése)
+    imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                         cv2.THRESH_BINARY_INV, 25, 16)
+    
+    # 4. Median szűrő (zaj eltávolítása)
+    imgMedian = cv2.medianBlur(imgThreshold, 5)
+    
+    # 5. Vastagítás (A vékony élek felerősítése)
+    kernel = np.ones((3, 3), np.uint8)
+    imgDilate = cv2.dilate(imgMedian, kernel, iterations=1)
+
+    # Elemző függvény hívása
+    checkParkingSpace(imgDilate, img)
+
+    cv2.imshow("Parkolo Rendszer", img)
+    
+    if cv2.waitKey(40) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
