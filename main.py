@@ -73,7 +73,7 @@ while True:
     checkParkingSpace(imgDilate, img)
 
     cv2.imshow("Parkolo Rendszer", img)
-    cv2.imshow("A GEP LATASA (Fekete-Feher)", imgDilate) 
+    #cv2.imshow("A GEP LATASA (Fekete-Feher)", imgDilate) 
     if cv2.waitKey(40) & 0xFF == ord('q'):
         break
 
