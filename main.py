@@ -22,7 +22,7 @@ def checkParkingSpace(imgPro, imgOriginal):
         count = cv2.countNonZero(imgCrop)
         
         # Ha a pixelszám alacsony (<900), akkor üres a hely
-        if count < 900: 
+        if count < 800: 
             color = (0, 255, 0) # Zöld
             thickness = 5
             spaceCounter += 1
@@ -73,7 +73,7 @@ while True:
     checkParkingSpace(imgDilate, img)
 
     cv2.imshow("Parkolo Rendszer", img)
-    
+    cv2.imshow("A GEP LATASA (Fekete-Feher)", imgDilate) 
     if cv2.waitKey(40) & 0xFF == ord('q'):
         break
 
