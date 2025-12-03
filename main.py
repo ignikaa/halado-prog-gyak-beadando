@@ -21,7 +21,7 @@ def checkParkingSpace(imgPro, imgOriginal):
         # Fehér pixelek számlálása
         count = cv2.countNonZero(imgCrop)
         
-        # Ha a pixelszám alacsony (<900), akkor üres a hely
+        # Ha a pixelszám alacsony (<800), akkor üres a hely
         if count < 800: 
             color = (0, 255, 0) # Zöld
             thickness = 5

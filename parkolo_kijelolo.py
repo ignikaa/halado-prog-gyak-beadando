@@ -59,7 +59,7 @@ while True:
     cv2.putText(img, "Aktualis meret", (15, 30 + curr_h), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
 
     cv2.imshow("Parkolo Kijelolo", img)
-    #cv2.setMouseCallback("Parkolo Kijelolo", mouseClick)
+    cv2.setMouseCallback("Parkolo Kijelolo", mouseClick)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
